@@ -1,5 +1,15 @@
 """
 一般 Python 用于连接 MySQL 的工具：pymysql
+这个模块起到了连接作用
+定义了几个存的表
+定义了几个取/查的表
+
+srtists:爬所以歌手ID，存
+album_by_artists:提取歌手ID，爬专辑ID,存
+music_byalbum:提取专辑ID,爬歌曲ID，存
+comments_by_music:提取歌曲ID，爬评论ID，存
+
+逻辑清晰
 """
 import pymysql.cursors
 
@@ -8,7 +18,7 @@ connection = pymysql.connect(host='localhost',
                              password='1234',
                              db='test',
                              charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+                             cursorclass=pymysql.cursors.DictCursor) #TODO：cursorclass
 
 
 # 保存评论
@@ -48,7 +58,7 @@ def get_all_artist():
     with connection.cursor() as cursor:
         sql = "SELECT `ARTIST_ID` FROM `artists` ORDER BY ARTIST_ID"
         cursor.execute(sql, ())
-        return cursor.fetchall()
+        return cursor.fetchall() #TODO：这个fetchall返回的是啥？Python数据结构吗
 
 
 # 获取所有专辑的 ID

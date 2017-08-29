@@ -33,6 +33,7 @@ class Music(object):
         body = soup.body
 
         musics = body.find('ul', attrs={'class': 'f-hide'}).find_all('li')  # 获取专辑的所有音乐
+        # #TODO：现在看class为m-table，会定期变么？确定会定期变了，ul为无序列表，现在全部用TR/td实现
 
         for music in musics:
             music = music.find('a')

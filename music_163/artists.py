@@ -20,7 +20,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
 }
 
-
+'''输入歌手分组的ID和首字母的序号，输出到插入sql'''
 def save_artist(group_id, initial):
     params = {'id': group_id, 'initial': initial}
     r = requests.get('http://music.163.com/discover/artist/cat', params=params)

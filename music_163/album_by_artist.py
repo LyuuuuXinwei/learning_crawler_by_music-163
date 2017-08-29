@@ -24,12 +24,12 @@ class Album(object):
     }
 
     def save_albums(self, artist_id):
-        params = {'id': artist_id, 'limit': '200'}
+        params = {'id': artist_id, 'limit': '200'} #TODO：Limits
         # 获取歌手个人主页
         r = requests.get('http://music.163.com/artist/album', headers=self.headers, params=params)
 
         # 网页解析
-        soup = BeautifulSoup(r.content.decode(), 'html.parser')
+        soup = BeautifulSoup(r.content.decode(), 'html.parser') #TODO:解析到底是要decode解析还是直接解析？urlopen和requests返回的分别是啥
         body = soup.body
 
         albums = body.find_all('a', attrs={'class': 'tit f-thide s-fc0'})  # 获取所有专辑
@@ -40,13 +40,13 @@ class Album(object):
 
 
 if __name__ == '__main__':
-    artists = sql.get_all_artist()
+    artists = sql.get_all_artist() #返回所有歌手ID
     my_album = Album()
     for i in artists:
         try:
             my_album.save_albums(i['ARTIST_ID'])
             # print(i)
-        except Exception as e:
+        except Exception as e: #TODO:这些个Exception的用法
             # 打印错误日志
             print(str(i) + ': ' + str(e))
             time.sleep(5)

@@ -24,7 +24,7 @@ class Comments(object):
         'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,zh-TW;q=0.4',
         'Cookie': 'JSESSIONID-WYYY=b66d89ed74ae9e94ead89b16e475556e763dd34f95e6ca357d06830a210abc7b685e82318b9d1d5b52ac4f4b9a55024c7a34024fddaee852404ed410933db994dcc0e398f61e670bfeea81105cbe098294e39ac566e1d5aa7232df741870ba1fe96e5cede8372ca587275d35c1a5d1b23a11e274a4c249afba03e20fa2dafb7a16eebdf6%3A1476373826753; _iuqxldmzr_=25; _ntes_nnid=7fa73e96706f26f3ada99abba6c4a6b2,1476372027128; _ntes_nuid=7fa73e96706f26f3ada99abba6c4a6b2; __utma=94650624.748605760.1476372027.1476372027.1476372027.1; __utmb=94650624.4.10.1476372027; __utmc=94650624; __utmz=94650624.1476372027.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)',
     }
-
+    #代理
     params = {
         'csrf_token': ''
     }
@@ -32,20 +32,21 @@ class Comments(object):
     data = {
         'params': 'Ak2s0LoP1GRJYqE3XxJUZVYK9uPEXSTttmAS+8uVLnYRoUt/Xgqdrt/13nr6OYhi75QSTlQ9FcZaWElIwE+oz9qXAu87t2DHj6Auu+2yBJDr+arG+irBbjIvKJGfjgBac+kSm2ePwf4rfuHSKVgQu1cYMdqFVnB+ojBsWopHcexbvLylDIMPulPljAWK6MR8',
         'encSecKey': '8c85d1b6f53bfebaf5258d171f3526c06980cbcaf490d759eac82145ee27198297c152dd95e7ea0f08cfb7281588cdab305946e01b9d84f0b49700f9c2eb6eeced8624b16ce378bccd24341b1b5ad3d84ebd707dbbd18a4f01c2a007cd47de32f28ca395c9715afa134ed9ee321caa7f28ec82b94307d75144f6b5b134a9ce1a'
-    }
+    }   #TODO:这是啥表单
 
-    proxies = {'http': 'http://127.0.0.1:10800'}
+    proxies = {'http': 'http://127.0.0.1:10800'} #TODO：代理要干嘛
 
     def get_comments(self, music_id, flag):
-        self.headers['Referer'] = 'http://music.163.com/playlist?id=' + str(music_id)
+        self.headers['Referer'] = 'http://music.163.com/playlist?id=' + str(music_id) #TODO:Referer是什么头，为何用playlist
         if flag:
             r = requests.post('http://music.163.com/weapi/v1/resource/comments/R_SO_4_' + str(music_id),
-                              headers=self.headers, params=self.params, data=self.data, proxies=self.proxies)
+                              headers=self.headers, params=self.params, data=self.data, proxies=self.proxies) #TODO：这是在用API?
         else:
             r = requests.post('http://music.163.com/weapi/v1/resource/comments/R_SO_4_' + str(music_id),
                               headers=self.headers, params=self.params, data=self.data)
-        return r.json()
+        return r.json() #TODO:返回json？
 
+    #TODO:基于API的写法，不然抓不到？？
 
 if __name__ == '__main__':
     my_comment = Comments()
@@ -64,7 +65,7 @@ if __name__ == '__main__':
                 print(e)
                 time.sleep(5)
 
-
+    #前后半段音乐ID
     music_before = sql.get_before_music()
     music_after = sql.get_after_music()
 
@@ -83,6 +84,8 @@ if __name__ == '__main__':
                                   charset='utf8mb4',
                                   cursorclass=pymysql.cursors.DictCursor)
 
+    #两个线程分别处理前后半段
+    # TODO:为何前半段用代理，后半段不用？
     t1 = threading.Thread(target=save_comments, args=(music_before, True, connection1))
     t2 = threading.Thread(target=save_comments, args=(music_after, False, connection2))
     t1.start()
